@@ -21,7 +21,7 @@ int asciiArray[250][230];
 float averageAsciiArray[10][10];
 float averageImArray[144][96];
 float scaledImArray[144][96];
-float scaledAsciiArray[25][23];
+float scaledAsciiArray[10][10];
 float scaledAscii1d[100];
 char asciiChArray[100];
 void ReadAsciiCharactersImage(int array[][230]) {
@@ -148,6 +148,36 @@ int main(int argc, char *argv[]) {
 			asciiChArray[k]=k+32;
 		}
 	}
-	//sorting the 1d array to find the closest
-	
+	float temp1;char temp2;
+	//sorting the 1d asciiarray to find the closest
+	for (int i =0;i<100;i++)
+	{
+		for (int j=0;j<99;j++)
+		{
+			if (scaledAscii1d[j]>scaledAscii1d[j+1])
+			{
+				temp1=scaledAscii1d[j];
+				temp2=asciiChArray[j];
+				scaledAscii1d[j]=scaledAscii1d[j+1];
+				asciiChArray[j]=asciiChArray[j+1];
+				scaledAscii1d[j+1]=temp1;
+				asciiChArray[j+1]=temp2;
+			}
+		}
+	}
+	//finding closest one
+	float selectorIm;
+	int k;
+	for (int i=0;i<144;i++)
+	{
+		for (int j=0;j<96;j++)
+		{
+			selectorIm=scaledImArray[i][j];
+			for (k=0;selectorIm>scaledAscii1d[k];k++)
+			{}
+			cout<<asciiChArray[k-1];
+		}
+		cout<<endl;
+	}
+	cout<<endl;
 }	
