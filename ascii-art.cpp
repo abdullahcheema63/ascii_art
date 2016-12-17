@@ -15,12 +15,13 @@ using namespace cimg_library;
 
 #define WIDTH 480	
 #define HEIGHT 720
+const int w=3;
 float imMax=0,imMin=255,asciiMax=0,asciiMin=255;
 int imArray[HEIGHT][WIDTH];
 int asciiArray[250][230];
 float averageAsciiArray[10][10];
-float averageImArray[144][96];
-float scaledImArray[144][96];
+float averageImArray[720/w][480/w];
+float scaledImArray[720/w][480/w];
 float scaledAsciiArray[10][10];
 float scaledAscii1d[100];
 char asciiChArray[100];
@@ -75,25 +76,25 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	//calculating average of image
-	for (int h=0,r=0;h<720;r=0,h+=5)
+	for (int h=0,r=0;h<720;r=0,h+=w)
 	{
-		for (;r<480;r+=5)
+		for (;r<480;r+=w)
 		{
-			for (int i=h;i<h+5;i++)
+			for (int i=h;i<h+w;i++)
 			{
-				for (int j=r;j<r+5;j++)
+				for (int j=r;j<r+w;j++)
 				{
-					averageImArray[h/5][r/5]+=imArray[i][j];
+					averageImArray[h/w][r/w]+=imArray[i][j];
 				}
 			}
-			averageImArray[h/5][r/5]/=25;
+			averageImArray[h/w][r/w]/=w*w;
 		}
 	}
 	
 	//calculating max and min of image array 
-	for (int i=0;i<144;i++)
+	for (int i=0;i<720/w;i++)
 	{
-		for (int j=0;j<96;j++)
+		for (int j=0;j<480/w;j++)
 		{
 			if (averageImArray[i][j]<imMin)
 			{
@@ -122,9 +123,9 @@ int main(int argc, char *argv[]) {
 	}
 
 	//rescaling image arrays
-	for (int i=0;i<144;i++)
+	for (int i=0;i<720/w;i++)
 	{
-		for (int j=0;j<96;j++)
+		for (int j=0;j<480/w;j++)
 		{
 			scaledImArray[i][j]=(averageImArray[i][j]-imMin)/(imMax-imMin);
 		}
@@ -168,9 +169,9 @@ int main(int argc, char *argv[]) {
 	//finding closest one
 	float selectorIm;
 	int k;
-	for (int i=0;i<144;i++)
+	for (int i=0;i<720/w;i++)
 	{
-		for (int j=0;j<96;j++)
+		for (int j=0;j<480/w;j++)
 		{
 			selectorIm=scaledImArray[i][j];
 			for (k=0;selectorIm>scaledAscii1d[k];k++)
